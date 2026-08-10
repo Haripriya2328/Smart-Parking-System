@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from models import Parking
+from models import Parking, MessageResponse
 from database import get_connection
-router=APIRouter()
+import math
 
+router = APIRouter()
 @router.get("/")
 def home():
     return {
@@ -27,7 +28,10 @@ def get_parking():
             "zone_name": row[1],
             "capacity": row[2],
             "occupied_slots": row[3],
-            "available_slots": row[4]
+            "available_slots": row[4],
+            "latitude": row[5],
+            "longitude": row[6],
+            "directions": row[7]
         }
 
         result.append(parking_dict)
@@ -60,16 +64,62 @@ def search_parking(name: str):
             "zone_name": parking[1],
             "capacity": parking[2],
             "occupied_slots": parking[3],
-            "available_slots": parking[4]
+            "available_slots": parking[4],
+            "latitude": parking[5],
+            "longitude": parking[6],
+            "directions": parking[7]
+
         }
     raise HTTPException(
     status_code=404,
     detail="Parking Zone Not Found"
     )
 
+@router.get("/parking/nearest")
+def nearest_parking(latitude: float, longitude: float):
+
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        """
+        SELECT *
+        FROM parking
+        """
+    )
+    parking_zones = cursor.fetchall()
+    result = []
+    for row in parking_zones:
+        parking_lat = float(row[5])
+        parking_lon = float(row[6])
+
+        distance=math.sqrt(
+            (latitude-parking_lat)**2 + (longitude-parking_lon)**2
+        )
+
+        result.append({
+            "zone_id": row[0],
+            "zone_name": row[1],
+            "capacity": row[2],
+            "occupied_slots": row[3],
+            "available_slots": row[4],
+            "latitude": row[5],
+            "longitude": row[6],
+            "distance": distance
+        })
+    result.sort(key=lambda x: x["distance"])
+    cursor.close()
+    connection.close()
+    if len(result) == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="No Parking Zones Found"
+        )
+    return result[0] 
+    
+
 #=======GET BY ID============
  
-@router.get("/parking/{zone_id}",response_model=Parking)
+@router.get("/parking/id/{zone_id}",response_model=Parking)
 def get_parking_by_id(zone_id: int):
 
     connection = get_connection()
@@ -91,48 +141,57 @@ def get_parking_by_id(zone_id: int):
             "zone_name": parking[1],
             "capacity": parking[2],
             "occupied_slots": parking[3],
-            "available_slots": parking[4]
+            "available_slots": parking[4],
+            "latitude": parking[5],
+            "longitude": parking[6],
+            "directions": parking[7]
         }
     raise HTTPException(
     status_code=404,
     detail="Parking Zone Not Found"
     )
 
-#========ADD PARKING=========
 
-@router.post("/parking")
+#========ADD PARKING=========
+@router.post("/parking", response_model=MessageResponse)
 def add_parking(parking: Parking):
 
-    connection = get_connection()
-    cursor = connection.cursor()
+    
+        connection = get_connection()
+        cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        INSERT INTO parking
-        (zone_id, zone_name, capacity, occupied_slots, available_slots)
-        VALUES (%s, %s, %s, %s, %s)
-        """,
-        (
-            parking.zone_id,
-            parking.zone_name,
-            parking.capacity,
-            parking.occupied_slots,
-            parking.available_slots
+        cursor.execute(
+            """
+            INSERT INTO parking
+            (zone_id, zone_name, capacity, occupied_slots, available_slots, latitude, longitude,directions)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            (
+                parking.zone_id,
+                parking.zone_name,
+                parking.capacity,
+                parking.occupied_slots,
+                parking.available_slots,
+                parking.latitude,
+                parking.longitude,
+                parking.directions
+            )
         )
-    )
 
-    connection.commit()
+        connection.commit()
 
-    cursor.close()
-    connection.close()
+        cursor.close()
+        connection.close()
 
-    return {
-        "message": "Parking Zone Added Successfully"
-    }
+        return {
+            "message": "Parking Zone Added Successfully"
+        }
+
+    
 
 #=========UPDATE PARKING==========
 
-@router.put("/parking/{zone_id}")
+@router.put("/parking/update/{zone_id}", response_model=MessageResponse)
 def update_parking(zone_id: int, parking: Parking):
     connection = get_connection()
     cursor = connection.cursor()
@@ -143,7 +202,10 @@ def update_parking(zone_id: int, parking: Parking):
             zone_name = %s,
             capacity = %s,
             occupied_slots = %s,
-            available_slots = %s
+            available_slots = %s,
+            latitude = %s,
+            longitude = %s,
+            directions=%s
         WHERE zone_id = %s
         """,
         (
@@ -151,6 +213,9 @@ def update_parking(zone_id: int, parking: Parking):
             parking.capacity,
             parking.occupied_slots,
             parking.available_slots,
+            parking.latitude,
+            parking.longitude,
+            parking.directions,
             zone_id
         )
     )
@@ -172,9 +237,8 @@ def update_parking(zone_id: int, parking: Parking):
         "message": "Parking Updated Successfully"
     }
 
-#==========DELETE PARKING==========    
-    
-@router.delete("/parking/{zone_id}")
+#==========DELETE PARKING========== 
+@router.delete("/parking/{zone_id}", response_model=MessageResponse)
 def delete_parking(zone_id: int):
     connection = get_connection()
     cursor = connection.cursor()

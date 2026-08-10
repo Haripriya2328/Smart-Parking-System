@@ -1,0 +1,462 @@
+/* ================= Global ================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+/* ================= Navbar ================= */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #1e3a8a;
+    color: white;
+}
+
+nav h1 {
+    font-size: 28px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    cursor: pointer;
+}
+
+nav li:hover {
+    color: yellow;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: yellow;
+}
+
+
+/* ================= Sections ================= */
+
+section {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+section h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+section p {
+    font-size: 20px;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+
+/* ================= Buttons ================= */
+
+button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+
+/* ================= Inputs ================= */
+
+input {
+    width: 300px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+
+/* ================= Search Parking ================= */
+
+.parking-card {
+    width: 350px;
+    max-width: 90%;
+    background: white;
+    color: black;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.parking-card h3 {
+    margin-bottom: 15px;
+    color: #1e3a8a;
+}
+
+.parking-card p {
+    margin: 8px 0;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.available {
+    background: green;
+}
+
+.full {
+    background: red;
+}
+
+
+/* ================= Dashboard ================= */
+
+.dashboard {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.dashboard h2 {
+    margin-bottom: 30px;
+    color: white;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dashboard-card {
+    width: 220px;
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card h3 {
+    color: #1e3a8a;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.dashboard-card p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+
+/* ================= Vehicle Entry ================= */
+
+.vehicle-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.vehicle-entry h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.vehicle-entry-form {
+    width: 400px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.vehicle-entry-form input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-right: 0;
+}
+
+.vehicle-entry-form button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: lightgreen;
+}
+
+
+/* ================= Vehicle Exit ================= */
+
+.vehicle-exit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.vehicle-exit h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.vehicle-exit form {
+    width: 400px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.vehicle-exit label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.vehicle-exit input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    margin-right: 0;
+}
+
+.vehicle-exit button {
+    width: 100%;
+}
+
+.success-message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: lightgreen;
+}
+
+
+/* ================= Parking Zones Table ================= */
+
+.parking-table {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.parking-table th {
+    background-color: #2563eb;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.parking-table td {
+    padding: 14px;
+    font-size: 16px;
+    color: #000000;
+    border: 1px solid #dddddd;
+}
+
+.parking-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.parking-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.parking-table tr:hover {
+    background-color: #dbeafe;
+}
+
+.parking-zones h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+
+/* ================= Parking Buttons ================= */
+
+.park-btn {
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.park-btn:hover {
+    background-color: #15803d;
+}
+
+.full-btn {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: not-allowed;
+}
+
+.navigate-btn {
+    min-width: 110px;
+    white-space: nowrap;
+}
+
+
+/* ================= Directions Popup ================= */
+
+.directions-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+
+/* ================= Popup Box ================= */
+
+.popup-content {
+    width: 600px;
+    max-width: 90%;
+    background: white;
+    color: black;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ================= Popup Heading ================= */
+
+.popup-content h2 {
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+
+/* ================= Popup Directions ================= */
+
+.popup-content p {
+    white-space: pre-line;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #000000;
+
+    line-height: 35px;
+
+    text-align: left;
+}
+
+
+/* ================= Popup Close Button ================= */
+
+.popup-content button {
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 30px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background: #1d4ed8;
+}
+
+.popup-content h3 {
+    margin-bottom: 20px;
+}
